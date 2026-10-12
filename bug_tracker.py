@@ -18,3 +18,15 @@ print(find_bug(bugs,2))
 print(find_bug(bugs,3))
 print(find_bug(bugs,4))
 print(find_bug(bugs,99))
+
+def filter_bugs(bugs,status,severity):
+    status=status.strip().lower()
+    severity=severity.strip().lower()
+    result=[]
+    for bug in bugs:
+        if bug["status"] == status and bug["severity"] == severity:
+            result.append(bug)
+    return result
+print(filter_bugs(bugs," OPEN ","High"))
+print(filter_bugs(bugs,"closed","high"))
+print(filter_bugs(bugs,"waiting","high"))
