@@ -48,3 +48,28 @@ def add_bug(bugs,title,severity):
     return new_id
 print(add_bug(bugs," Не открывается профиль ","HIGH"))
 print(add_bug(bugs,'asdas', 'urgent'))
+
+def change_status(bugs,bug_id,new_status):
+    new_status=new_status.strip().lower()
+    if new_status not in ("open","in_progress","closed"):
+        return "invalid_status"
+    bug=find_bug(bugs,bug_id)
+    if bug is None:
+        return "not_found"
+    current=bug["status"].strip().lower()
+    if current==new_status:
+        return "forbidden"
+    allowed=False
+    if current=="open" and new_status=="in_progress":
+        allowed=True
+    elif current=="in_progress" and new_status in ("open","closed"):
+        allowed=True
+    elif current=="closed" and new_status=="open":
+        allowed=True
+    if not allowed:
+        return "forbidden"
+    bug["status"]=new_status
+    return "updated"
+print(change_status(bugs,99,"open"))
+print(change_status(bugs,1,"in_progress"))
+print(change_status(bugs,2,"closed"))
