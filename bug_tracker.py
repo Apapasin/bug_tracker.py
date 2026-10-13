@@ -94,3 +94,38 @@ def start_selected(bugs,ids):
     for bug_id in ids:
         find_bug(bugs,bug_id)["status"]="in_progress"
     return True
+
+while True:
+    print("1-find_bug")
+    print("2-filter_bugs")
+    print("3-add_bug")
+    print("4-change_status")
+    print("5-build_report")
+    print("6-start_selected")
+    print("0-выход")
+    choice=input("Выбор: ").strip()
+    if choice=="0":
+        break
+    elif choice=="1":
+        bug_id=int(input("ID: "))
+        print(find_bug(bugs,bug_id))
+    elif choice=="2":
+        status=input("Статус: ")
+        severity=input("Серьёзность: ")
+        print(filter_bugs(bugs,status,severity))
+    elif choice=="3":
+        title=input("Название: ")
+        severity=input("Серьёзность: ")
+        print(add_bug(bugs,title,severity))
+    elif choice=="4":
+        bug_id=int(input("ID: "))
+        new_status=input("Новый статус: ")
+        print(change_status(bugs,bug_id,new_status))
+    elif choice=="5":
+        print(build_report(bugs))
+    elif choice=="6":
+        raw=input("ID через пробел: ")
+        ids=[int(i) for i in raw.split()]
+        print(start_selected(bugs,ids))
+    else:
+        print("Нет такой команды")
