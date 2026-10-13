@@ -13,11 +13,6 @@ def find_bug(bugs,bug_id):
         if bug["id"] == bug_id:
             return bug
     return None
-print(find_bug(bugs,1))
-print(find_bug(bugs,2))
-print(find_bug(bugs,3))
-print(find_bug(bugs,4))
-print(find_bug(bugs,99))
 
 def filter_bugs(bugs,status,severity):
     status=status.strip().lower()
@@ -27,9 +22,6 @@ def filter_bugs(bugs,status,severity):
         if bug["status"] == status and bug["severity"] == severity:
             result.append(bug)
     return result
-print(filter_bugs(bugs," OPEN ","High"))
-print(filter_bugs(bugs,"closed","high"))
-print(filter_bugs(bugs,"waiting","high"))
 
 def add_bug(bugs,title,severity):
     title=title.strip()
@@ -46,8 +38,6 @@ def add_bug(bugs,title,severity):
     new_bug={"id": new_id, "title": title, "severity": severity, "status": "open"}
     bugs.append(new_bug)
     return new_id
-print(add_bug(bugs," Не открывается профиль ","HIGH"))
-print(add_bug(bugs,'asdas', 'urgent'))
 
 def change_status(bugs,bug_id,new_status):
     new_status=new_status.strip().lower()
@@ -70,9 +60,6 @@ def change_status(bugs,bug_id,new_status):
         return "forbidden"
     bug["status"]=new_status
     return "updated"
-print(change_status(bugs,99,"open"))
-print(change_status(bugs,1,"in_progress"))
-print(change_status(bugs,2,"closed"))
 
 def build_report(bugs):
     total=len(bugs)
@@ -94,4 +81,16 @@ def build_report(bugs):
         "by_severity": by_severity,
         "unresolved_high": unresolved_high
     }
-print(build_report(bugs))
+
+def start_selected(bugs,ids):
+    if not ids:
+        return False
+    if len(ids)!=len(set(ids)):
+        return False
+    for bug_id in ids:
+        bug=find_bug(bugs,bug_id)
+        if bug is None or bug["status"].strip().lower() != "open":
+            return False
+    for bug_id in ids:
+        find_bug(bugs,bug_id)["status"]="in_progress"
+    return True
