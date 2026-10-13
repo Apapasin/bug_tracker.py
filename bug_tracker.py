@@ -73,3 +73,25 @@ def change_status(bugs,bug_id,new_status):
 print(change_status(bugs,99,"open"))
 print(change_status(bugs,1,"in_progress"))
 print(change_status(bugs,2,"closed"))
+
+def build_report(bugs):
+    total=len(bugs)
+    by_status={"open": 0,"in_progress": 0, "closed": 0}
+    by_severity={"high": 0, "medium": 0, "low": 0}
+    unresolved_high=0
+    for bug in bugs:
+        status=bug["status"].strip().lower()
+        severity=bug["severity"].strip().lower()
+        if status in by_status:
+            by_status[status]+=1
+        if severity in by_severity:
+            by_severity[severity]+=1
+        if severity=="high" and status !="closed":
+            unresolved_high+=1
+    return {
+        "total": total,
+        "by_status": by_status,
+        "by_severity": by_severity,
+        "unresolved_high": unresolved_high
+    }
+print(build_report(bugs))
